@@ -143,6 +143,8 @@ func goTypeStringer(t string) string {
 		return "%s"
 	case "*string":
 		return "*%s"
+	case "ParseMode":
+		return "string(%s)"
 	default:
 		return ""
 	}

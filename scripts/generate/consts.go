@@ -115,15 +115,16 @@ func generateParseModeConsts() string {
 
 	out := strings.Builder{}
 	out.WriteString("\n// The consts listed below represent all the parse_mode options that can be sent to telegram.")
+	out.WriteString("\ntype ParseMode string")
 	out.WriteString("\nconst (")
 	for _, t := range formattingTypes {
 		constName := "ParseMode" + t
 		if t == "None" {
 			// no parsemode == empty string value.
-			out.WriteString(writeConst(constName, ""))
+			out.WriteString(writeConstWithType(constName, "", "ParseMode"))
 			continue
 		}
-		out.WriteString(writeConst(constName, t))
+		out.WriteString(writeConstWithType(constName, t, "ParseMode"))
 	}
 	out.WriteString(")\n\n")
 	return out.String()
@@ -178,4 +179,8 @@ func generateChatActionConsts(d APIDescription) (string, error) {
 
 func writeConst(name string, value string) string {
 	return fmt.Sprintf("\n%s = \"%s\"", name, value)
+}
+
+func writeConstWithType(name string, value string, valueType string) string {
+	return fmt.Sprintf("\n%s %s = \"%s\"", name, valueType, value)
 }

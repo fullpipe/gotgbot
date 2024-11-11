@@ -365,6 +365,10 @@ func (f Field) getPreferredType(d APIDescription) (string, error) {
 		}
 	}
 
+	if f.Name == "parse_mode" {
+		return "ParseMode", nil
+	}
+
 	if len(f.Types) == 1 {
 		goType := toGoType(f.Types[0])
 

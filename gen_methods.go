@@ -526,7 +526,7 @@ type CopyMessageOpts struct {
 	// New caption for media, 0-1024 characters after entities parsing. If not specified, the original caption is kept
 	Caption *string
 	// Mode for parsing entities in the new caption. See formatting options for more details.
-	ParseMode string
+	ParseMode ParseMode
 	// A JSON-serialized list of special entities that appear in the new caption, which can be specified instead of parse_mode
 	CaptionEntities []MessageEntity
 	// Pass True, if the caption must be shown above the message media. Ignored if a new caption isn't specified.
@@ -569,7 +569,7 @@ func (bot *Bot) CopyMessageWithContext(ctx context.Context, chatId int64, fromCh
 		if opts.Caption != nil {
 			v["caption"] = *opts.Caption
 		}
-		v["parse_mode"] = opts.ParseMode
+		v["parse_mode"] = string(opts.ParseMode)
 		if opts.CaptionEntities != nil {
 			bs, err := json.Marshal(opts.CaptionEntities)
 			if err != nil {
@@ -1551,7 +1551,7 @@ type EditMessageCaptionOpts struct {
 	// New caption of the message, 0-1024 characters after entities parsing
 	Caption string
 	// Mode for parsing entities in the message caption. See formatting options for more details.
-	ParseMode string
+	ParseMode ParseMode
 	// A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
 	CaptionEntities []MessageEntity
 	// Pass True, if the caption must be shown above the message media. Supported only for animation, photo and video messages.
@@ -1583,7 +1583,7 @@ func (bot *Bot) EditMessageCaptionWithContext(ctx context.Context, opts *EditMes
 		}
 		v["inline_message_id"] = opts.InlineMessageId
 		v["caption"] = opts.Caption
-		v["parse_mode"] = opts.ParseMode
+		v["parse_mode"] = string(opts.ParseMode)
 		if opts.CaptionEntities != nil {
 			bs, err := json.Marshal(opts.CaptionEntities)
 			if err != nil {
@@ -1858,7 +1858,7 @@ type EditMessageTextOpts struct {
 	// Required if chat_id and message_id are not specified. Identifier of the inline message
 	InlineMessageId string
 	// Mode for parsing entities in the message text. See formatting options for more details.
-	ParseMode string
+	ParseMode ParseMode
 	// A JSON-serialized list of special entities that appear in message text, which can be specified instead of parse_mode
 	Entities []MessageEntity
 	// Link preview generation options for the message
@@ -1891,7 +1891,7 @@ func (bot *Bot) EditMessageTextWithContext(ctx context.Context, text string, opt
 			v["message_id"] = strconv.FormatInt(opts.MessageId, 10)
 		}
 		v["inline_message_id"] = opts.InlineMessageId
-		v["parse_mode"] = opts.ParseMode
+		v["parse_mode"] = string(opts.ParseMode)
 		if opts.Entities != nil {
 			bs, err := json.Marshal(opts.Entities)
 			if err != nil {
@@ -3398,7 +3398,7 @@ type SendAnimationOpts struct {
 	// Animation caption (may also be used when resending animation by file_id), 0-1024 characters after entities parsing
 	Caption string
 	// Mode for parsing entities in the animation caption. See formatting options for more details.
-	ParseMode string
+	ParseMode ParseMode
 	// A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
 	CaptionEntities []MessageEntity
 	// Pass True, if the caption must be shown above the message media
@@ -3465,7 +3465,7 @@ func (bot *Bot) SendAnimationWithContext(ctx context.Context, chatId int64, anim
 			v["thumbnail"] = opts.Thumbnail.getValue()
 		}
 		v["caption"] = opts.Caption
-		v["parse_mode"] = opts.ParseMode
+		v["parse_mode"] = string(opts.ParseMode)
 		if opts.CaptionEntities != nil {
 			bs, err := json.Marshal(opts.CaptionEntities)
 			if err != nil {
@@ -3518,7 +3518,7 @@ type SendAudioOpts struct {
 	// Audio caption, 0-1024 characters after entities parsing
 	Caption string
 	// Mode for parsing entities in the audio caption. See formatting options for more details.
-	ParseMode string
+	ParseMode ParseMode
 	// A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
 	CaptionEntities []MessageEntity
 	// Duration of the audio in seconds
@@ -3574,7 +3574,7 @@ func (bot *Bot) SendAudioWithContext(ctx context.Context, chatId int64, audio In
 			v["message_thread_id"] = strconv.FormatInt(opts.MessageThreadId, 10)
 		}
 		v["caption"] = opts.Caption
-		v["parse_mode"] = opts.ParseMode
+		v["parse_mode"] = string(opts.ParseMode)
 		if opts.CaptionEntities != nil {
 			bs, err := json.Marshal(opts.CaptionEntities)
 			if err != nil {
@@ -3847,7 +3847,7 @@ type SendDocumentOpts struct {
 	// Document caption (may also be used when resending documents by file_id), 0-1024 characters after entities parsing
 	Caption string
 	// Mode for parsing entities in the document caption. See formatting options for more details.
-	ParseMode string
+	ParseMode ParseMode
 	// A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
 	CaptionEntities []MessageEntity
 	// Disables automatic server-side content type detection for files uploaded using multipart/form-data
@@ -3903,7 +3903,7 @@ func (bot *Bot) SendDocumentWithContext(ctx context.Context, chatId int64, docum
 			v["thumbnail"] = opts.Thumbnail.getValue()
 		}
 		v["caption"] = opts.Caption
-		v["parse_mode"] = opts.ParseMode
+		v["parse_mode"] = string(opts.ParseMode)
 		if opts.CaptionEntities != nil {
 			bs, err := json.Marshal(opts.CaptionEntities)
 			if err != nil {
@@ -4354,7 +4354,7 @@ type SendMessageOpts struct {
 	// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
 	MessageThreadId int64
 	// Mode for parsing entities in the message text. See formatting options for more details.
-	ParseMode string
+	ParseMode ParseMode
 	// A JSON-serialized list of special entities that appear in message text, which can be specified instead of parse_mode
 	Entities []MessageEntity
 	// Link preview generation options for the message
@@ -4395,7 +4395,7 @@ func (bot *Bot) SendMessageWithContext(ctx context.Context, chatId int64, text s
 		if opts.MessageThreadId != 0 {
 			v["message_thread_id"] = strconv.FormatInt(opts.MessageThreadId, 10)
 		}
-		v["parse_mode"] = opts.ParseMode
+		v["parse_mode"] = string(opts.ParseMode)
 		if opts.Entities != nil {
 			bs, err := json.Marshal(opts.Entities)
 			if err != nil {
@@ -4453,7 +4453,7 @@ type SendPaidMediaOpts struct {
 	// Media caption, 0-1024 characters after entities parsing
 	Caption string
 	// Mode for parsing entities in the media caption. See formatting options for more details.
-	ParseMode string
+	ParseMode ParseMode
 	// A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
 	CaptionEntities []MessageEntity
 	// Pass True, if the caption must be shown above the message media
@@ -4508,7 +4508,7 @@ func (bot *Bot) SendPaidMediaWithContext(ctx context.Context, chatId int64, star
 		v["business_connection_id"] = opts.BusinessConnectionId
 		v["payload"] = opts.Payload
 		v["caption"] = opts.Caption
-		v["parse_mode"] = opts.ParseMode
+		v["parse_mode"] = string(opts.ParseMode)
 		if opts.CaptionEntities != nil {
 			bs, err := json.Marshal(opts.CaptionEntities)
 			if err != nil {
@@ -4559,7 +4559,7 @@ type SendPhotoOpts struct {
 	// Photo caption (may also be used when resending photos by file_id), 0-1024 characters after entities parsing
 	Caption string
 	// Mode for parsing entities in the photo caption. See formatting options for more details.
-	ParseMode string
+	ParseMode ParseMode
 	// A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
 	CaptionEntities []MessageEntity
 	// Pass True, if the caption must be shown above the message media
@@ -4610,7 +4610,7 @@ func (bot *Bot) SendPhotoWithContext(ctx context.Context, chatId int64, photo In
 			v["message_thread_id"] = strconv.FormatInt(opts.MessageThreadId, 10)
 		}
 		v["caption"] = opts.Caption
-		v["parse_mode"] = opts.ParseMode
+		v["parse_mode"] = string(opts.ParseMode)
 		if opts.CaptionEntities != nil {
 			bs, err := json.Marshal(opts.CaptionEntities)
 			if err != nil {
@@ -4990,7 +4990,7 @@ type SendVideoOpts struct {
 	// Video caption (may also be used when resending videos by file_id), 0-1024 characters after entities parsing
 	Caption string
 	// Mode for parsing entities in the video caption. See formatting options for more details.
-	ParseMode string
+	ParseMode ParseMode
 	// A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
 	CaptionEntities []MessageEntity
 	// Pass True, if the caption must be shown above the message media
@@ -5059,7 +5059,7 @@ func (bot *Bot) SendVideoWithContext(ctx context.Context, chatId int64, video In
 			v["thumbnail"] = opts.Thumbnail.getValue()
 		}
 		v["caption"] = opts.Caption
-		v["parse_mode"] = opts.ParseMode
+		v["parse_mode"] = string(opts.ParseMode)
 		if opts.CaptionEntities != nil {
 			bs, err := json.Marshal(opts.CaptionEntities)
 			if err != nil {
@@ -5215,7 +5215,7 @@ type SendVoiceOpts struct {
 	// Voice message caption, 0-1024 characters after entities parsing
 	Caption string
 	// Mode for parsing entities in the voice message caption. See formatting options for more details.
-	ParseMode string
+	ParseMode ParseMode
 	// A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
 	CaptionEntities []MessageEntity
 	// Duration of the voice message in seconds
@@ -5264,7 +5264,7 @@ func (bot *Bot) SendVoiceWithContext(ctx context.Context, chatId int64, voice In
 			v["message_thread_id"] = strconv.FormatInt(opts.MessageThreadId, 10)
 		}
 		v["caption"] = opts.Caption
-		v["parse_mode"] = opts.ParseMode
+		v["parse_mode"] = string(opts.ParseMode)
 		if opts.CaptionEntities != nil {
 			bs, err := json.Marshal(opts.CaptionEntities)
 			if err != nil {
